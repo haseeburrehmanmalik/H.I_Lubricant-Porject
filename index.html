@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HI LUBRICANT – Premium Lubricants for Maximum Performance</title>
+    <meta name="description" content="HI LUBRICANT supplies premium engine oils, industrial lubricants, and automotive fluids. Trusted supplier of Shell, Castrol, Mobil, and more." />
+    <link rel="icon" type="image/svg+xml" href="assets/logo/hi-lubricant-logo.svg" />
+
+    <!-- ====== CSS ====== -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <!-- ====== Font Awesome ====== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- ====== AOS CSS ====== -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- ====== EmailJS ====== -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
+</head>
+<body>
+
+    <!-- ====== BACK TO TOP ====== -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ====== NAVBAR ====== -->
+    <header class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="nav-left">
+                <a href="#" class="logo" aria-label="HI LUBRICANT Home">
+                    <img src="assets/logo/hi-lubricant-logo.svg" alt="HI LUBRICANT Logo" class="logo-img" />
+                    <span class="logo-text">HI <span>LUBRICANT</span></span>
+                </a>
+            </div>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <nav class="nav-right" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#brands">Brands</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#order" class="nav-order-btn">Order</a></li>
+                </ul>
+                <div class="nav-cart" id="navCart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">Order Now</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ====== HERO ====== -->
+    <section id="home" class="hero">
+        <div class="hero-video-wrapper">
+            <video class="hero-video" autoplay muted loop playsinline preload="auto">
+                <source src="assets/videos/hero-oil.mp4" type="video/mp4" />
+                <!-- Fallback: CSS animation if video fails -->
+            </video>
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-particles" id="heroParticles"></div>
+
+        <div class="container hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-certificate"></i> Premium Quality Since 2005
+            </div>
+            <h1 class="hero-title">
+                Premium Lubricants for <br /><span class="highlight">Maximum Performance</span>
+            </h1>
+            <p class="hero-subtitle">
+                High-quality engine oils and industrial lubricants for every machine.
+                Trusted by industries worldwide.
+            </p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn btn-primary btn-lg">
+                    <i class="fas fa-oil-can"></i> Explore Products
+                </a>
+                <a href="#contact" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-phone-alt"></i> Contact Us
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="5000">0</span>
+                    <span class="stat-label">Happy Clients</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="1200">0</span>
+                    <span class="stat-label">Products Supplied</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="50">0</span>
+                    <span class="stat-label">Brands Available</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="98">0</span>
+                    <span class="stat-label">% Satisfaction</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== ABOUT ====== -->
+    <section id="about" class="about section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">About Us</span>
+                <h2 class="section-title">Leading Lubricant <span>Supplier</span></h2>
+                <p class="section-desc">
+                    HI LUBRICANT is a premium supplier of high-quality engine oils, industrial lubricants,
+                    and automotive fluids. We deliver excellence with every drop.
+                </p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>
+                            With over <strong>15 years of experience</strong>, HI LUBRICANT has established
+                            itself as a trusted partner for businesses across Pakistan. We supply genuine,
+                            high-performance lubricants from the world's leading brands.
+                        </p>
+                        <ul class="about-features">
+                            <li><i class="fas fa-check-circle"></i> 100% Genuine Products</li>
+                            <li><i class="fas fa-check-circle"></i> Best Prices Guaranteed</li>
+                            <li><i class="fas fa-check-circle"></i> Fast Delivery Across Pakistan</li>
+                            <li><i class="fas fa-check-circle"></i> Premium Brands Portfolio</li>
+                            <li><i class="fas fa-check-circle"></i> Expert Technical Support</li>
+                            <li><i class="fas fa-check-circle"></i> Large Product Collection</li>
+                        </ul>
+                    </div>
+                    <div class="about-cta">
+                        <a href="#contact" class="btn btn-primary">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="./assets/About Pic/Shop Pic.png" alt="HI LUBRICANT Warehouse" loading="lazy" />
+                    <div class="about-image-badge">
+                        <i class="fas fa-trophy"></i> 15+ Years of Excellence
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Choose Us -->
+            <div class="why-choose">
+                <h3 class="why-title">Why Choose <span>HI LUBRICANT</span></h3>
+                <div class="why-grid">
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h4>100% Genuine</h4>
+                        <p>Authentic products from original manufacturers.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-tags"></i></div>
+                        <h4>Best Prices</h4>
+                        <p>Competitive pricing without compromising quality.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-truck-fast"></i></div>
+                        <h4>Fast Delivery</h4>
+                        <p>Quick and reliable delivery across Pakistan.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-award"></i></div>
+                        <h4>Premium Brands</h4>
+                        <p>Partnership with world-class lubricant brands.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-headset"></i></div>
+                        <h4>Expert Support</h4>
+                        <p>Professional technical guidance and support.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-boxes"></i></div>
+                        <h4>Large Collection</h4>
+                        <p>Wide range of products for every application.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-lock"></i></div>
+                        <h4>Secure Orders</h4>
+                        <p>Safe and secure ordering process.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-smile"></i></div>
+                        <h4>Satisfaction</h4>
+                        <p>Customer satisfaction is our top priority.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== PRODUCTS ====== -->
+    <section id="products" class="products section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Catalog</span>
+                <h2 class="section-title">Premium <span>Products</span></h2>
+                <p class="section-desc">
+                    Explore our extensive range of high-quality lubricants and automotive fluids.
+                </p>
+            </div>
+
+            <!-- Product Controls -->
+            <div class="product-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="productSearch" placeholder="Search products..." aria-label="Search products" />
+                </div>
+                <div class="filter-group">
+                    <select id="filterCategory" aria-label="Filter by category">
+                        <option value="all">All Categories</option>
+                    </select>
+                    <select id="filterBrand" aria-label="Filter by brand">
+                        <option value="all">All Brands</option>
+                    </select>
+                    <select id="sortProducts" aria-label="Sort products">
+                        <option value="popular">Popular</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="newest">Newest</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="product-grid" id="productGrid">
+                <!-- Products rendered by JavaScript -->
+            </div>
+
+            <div class="product-load-more">
+                <button class="btn btn-outline" id="loadMoreProducts">Load More <i class="fas fa-arrow-down"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== BRANDS ====== -->
+    <section id="brands" class="brands section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Partners</span>
+                <h2 class="section-title">Trusted <span>Brands</span></h2>
+                <p class="section-desc">
+                    We proudly supply products from the world's leading lubricant manufacturers.
+                </p>
+            </div>
+            <div class="brand-slider" id="brandSlider">
+                <div class="brand-track">
+                    <!-- Brands rendered by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== SERVICES ====== -->
+    <section id="services" class="services section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">What We Offer</span>
+                <h2 class="section-title">Our <span>Services</span></h2>
+                <p class="section-desc">
+                    Comprehensive lubricant solutions for every industry and application.
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-oil-can"></i></div>
+                    <h4>Engine Oil Supply</h4>
+                    <p>Premium engine oils for all vehicle types and machinery.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-industry"></i></div>
+                    <h4>Industrial Lubricants</h4>
+                    <p>High-performance lubricants for industrial applications.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-boxes-stacked"></i></div>
+                    <h4>Bulk Orders</h4>
+                    <p>Large volume supply for commercial and industrial needs.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-wholesale"></i></div>
+                    <h4>Wholesale Supply</h4>
+                    <p>Competitive wholesale pricing for retailers and distributors.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-comment-dots"></i></div>
+                    <h4>Oil Consultation</h4>
+                    <p>Expert advice on selecting the right lubricant for your needs.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-truck"></i></div>
+                    <h4>Commercial Supply</h4>
+                    <p>Reliable lubricant supply for commercial fleets and businesses.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-ship"></i></div>
+                    <h4>Fleet Lubrication</h4>
+                    <p>Complete lubrication solutions for vehicle fleets.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-microchip"></i></div>
+                    <h4>Industrial Solutions</h4>
+                    <p>Tailored lubricant solutions for industrial machinery.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== GALLERY ====== -->
+    <section id="gallery" class="gallery section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Visual Tour</span>
+                <h2 class="section-title">Our <span>Gallery</span></h2>
+                <p class="section-desc">
+                    A glimpse into our operations, warehouse, and product range.
+                </p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="./assets/Gallery/Pic 1.png" alt="Oil warehouse" loading="lazy" />
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./assets/About Pic/Shop Pic.png" alt="Oil drums" loading="lazy" />
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./assets/Gallery/Pic 3.png" alt="Industrial machinery" loading="lazy" />
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./assets/logo/hi-lubricant-logo.svg" alt="Engine oil bottles" loading="lazy" />
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./assets/Gallery/Pic 3.png" alt="Showroom" loading="lazy" />
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./assets/About Pic/Shop Pic.png" alt="Delivery" loading="lazy" />
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== TESTIMONIALS ====== -->
+    <section id="testimonials" class="testimonials section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Testimonials</span>
+                <h2 class="section-title">What Our <span>Clients Say</span></h2>
+                <p class="section-desc">
+                    Real feedback from our satisfied customers across Pakistan.
+                </p>
+            </div>
+            <div class="testimonial-slider" id="testimonialSlider">
+                <div class="testimonial-track">
+                    <!-- Testimonials rendered by JavaScript -->
+                </div>
+                <button class="testimonial-arrow prev" id="testPrev"><i class="fas fa-chevron-left"></i></button>
+                <button class="testimonial-arrow next" id="testNext"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== CONTACT ====== -->
+    <section id="contact" class="contact section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Get in Touch</span>
+                <h2 class="section-title">Contact <span>Us</span></h2>
+                <p class="section-desc">
+                    Reach out to us for inquiries, orders, or professional consultation.
+                </p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-building"></i></div>
+                        <div>
+                            <h4>HI LUBRICANT</h4>
+                            <p>Premium Lubricant &amp; Industrial Oil Supplier</p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Gari Khata Tulsi Daas Road, Hyderabad, Sindh, Pakistan</p>
+                            <a href="https://www.google.com/maps?q=Gari+Khata+Tulsi+Daas+Road+Hyderabad+Sindh+Pakistan" target="_blank" style="color:var(--yellow);font-size:0.85rem;">
+                                <i class="fas fa-external-link-alt"></i> View on Google Maps
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <h4>Business Hours</h4>
+                            <p><strong style="color:var(--yellow);">Saturday – Thursday</strong> · 24/7 Available</p>
+                            <p style="font-size:0.85rem;color:var(--gray-400);">Open all days, including holidays</p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div>
+                            <h4>Phone</h4>
+                            <p><a href="tel:+923113728228">+92 311 3728228</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:hasseburrahmanmalik@gmail.com">hasseburrahmanmalik@gmail.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-social">
+                        <a href="https://www.facebook.com/profile.php?id=61591767781541" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/h.i.lubricant/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/923113728228" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                    <div class="contact-whatsapp">
+                        <a href="https://wa.me/923113728228" class="btn btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                        </a>
+                        <a href="tel:+923113728228" class="btn btn-call">
+                            <i class="fas fa-phone-alt"></i> Call Now
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactName">Full Name</label>
+                                <input type="text" id="contactName" placeholder="Your name" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail">Email Address</label>
+                                <input type="email" id="contactEmail" placeholder="your@email.com" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">Phone Number</label>
+                            <input type="tel" id="contactPhone" placeholder="+92 300 1234567" />
+                        </div>
+                        <div class="form-group">
+                            <label for="contactSubject">Subject</label>
+                            <input type="text" id="contactSubject" placeholder="How can we help?" />
+                        </div>
+                        <div class="form-group">
+                            <label for="contactMessage">Message</label>
+                            <textarea id="contactMessage" rows="5" placeholder="Tell us about your requirements..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="contact-map">
+                <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28903.670589846383!2d68.323344!3d25.392217!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394c77b6de1c1003%3A0x9e2d2e8b5c3f7a1!2sHyderabad%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1699999999999"
+                width="100%"
+                height="300"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="HI LUBRICANT Location - Hyderabad, Sindh"
+            ></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- ====== ORDER MODAL ====== -->
+<div class="order-modal" id="orderModal">
+    <div class="order-modal-content">
+        <button class="order-modal-close" id="orderModalClose">&times;</button>
+        <div class="order-modal-header">
+            <h2>Place Your Order</h2>
+            <p>Fill in the details below and we'll process your order immediately.</p>
+        </div>
+        <form id="orderForm">
+            <input type="hidden" id="orderProductId" />
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="orderName">Full Name *</label>
+                    <input type="text" id="orderName" placeholder="Your full name" required />
+                </div>
+                <div class="form-group">
+                    <label for="orderEmail">Email Address *</label>
+                    <input type="email" id="orderEmail" placeholder="your@email.com" required />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="orderPhone">Phone Number *</label>
+                    <input type="tel" id="orderPhone" placeholder="+92 300 1234567" required />
+                </div>
+                <div class="form-group">
+                    <label for="orderProduct">Product *</label>
+                    <input type="text" id="orderProduct" readonly />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="orderQuantity">Quantity *</label>
+                    <input type="number" id="orderQuantity" min="1" value="1" required />
+                </div>
+                <div class="form-group">
+                    <label for="orderCity">City</label>
+                    <input type="text" id="orderCity" placeholder="Your city" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="orderAddress">Shipping Address *</label>
+                <textarea id="orderAddress" rows="3" placeholder="Full shipping address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="orderNotes">Special Notes</label>
+                <textarea id="orderNotes" rows="2" placeholder="Any special instructions..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-check-circle"></i> Submit Order
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- ====== CART SIDEBAR ====== -->
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-sidebar-header">
+        <h3><i class="fas fa-shopping-cart"></i> Your Cart</h3>
+        <button class="cart-close" id="cartClose">&times;</button>
+    </div>
+    <div class="cart-sidebar-body" id="cartItems">
+        <p class="cart-empty">Your cart is empty.</p>
+    </div>
+    <div class="cart-sidebar-footer">
+        <div class="cart-total">
+            <span>Subtotal:</span>
+            <span id="cartSubtotal">PKR 0</span>
+        </div>
+        <div class="cart-total">
+            <span>Tax (5%):</span>
+            <span id="cartTax">PKR 0</span>
+        </div>
+        <div class="cart-total cart-grand-total">
+            <span>Total:</span>
+            <span id="cartTotal">PKR 0</span>
+        </div>
+        <button class="btn btn-primary btn-block" id="checkoutBtn">
+            <i class="fas fa-credit-card"></i> Proceed to Checkout
+        </button>
+    </div>
+</div>
+<div class="cart-overlay" id="cartOverlay"></div>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="footer-logo">
+                    <img src="assets/logo/hi-lubricant-logo.svg" alt="HI LUBRICANT" class="footer-logo-img" />
+                    <span>HI LUBRICANT</span>
+                </a>
+                <p>Premium lubricants and industrial oils for maximum performance. Trusted by industries worldwide.</p>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/profile.php?id=61591767781541" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/h.i.lubricant/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/923113728228" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#brands">Brands</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="#products">Engine Oil</a></li>
+                    <li><a href="#products">Motorcycle Oil</a></li>
+                    <li><a href="#products">Hydraulic Oil</a></li>
+                    <li><a href="#products">Gear Oil</a></li>
+                    <li><a href="#products">Industrial Oil</a></li>
+                    <li><a href="#products">Grease &amp; Coolant</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Gari Khata Tulsi Daas Rd, Hyderabad</li>
+                    <li><i class="fas fa-phone-alt"></i> +92 311 3728228</li>
+                    <li><i class="fas fa-envelope"></i> hasseburrahmanmalik@gmail.com</li>
+                    <li><i class="fas fa-clock"></i> Sat–Thu · 24/7 Available</li>
+                </ul>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <form id="newsletterForm">
+                        <input type="email" placeholder="Your email" required />
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 <strong>HI LUBRICANT</strong>. All rights reserved.</p>
+            <p>Premium Lubricant &amp; Industrial Oil Supplier — Hyderabad, Sindh</p>
+        </div>
+    </div>
+</footer>
+
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<!-- ====== SCRIPTS ====== -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/search.js"></script>
+<script src="js/order.js"></script>
+<script src="js/email.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
