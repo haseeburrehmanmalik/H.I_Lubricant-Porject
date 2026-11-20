@@ -1,0 +1,25 @@
+{
+  "name": "hi-lubricant",
+  "version": "1.0.0",
+  "description": "H.I Lubricant – Complete Production-Ready eCommerce Web Application",
+  "scripts": {
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start"
+  },
+  "keywords": [
+    "ecommerce",
+    "mern",
+    "lubricants",
+    "engine-oil",
+    "automotive",
+    "mongodb",
+    "express",
+    "react",
+    "node"
+  ],
+  "author": "H.I Lubricant",
+  "license": "ISC"
+}
