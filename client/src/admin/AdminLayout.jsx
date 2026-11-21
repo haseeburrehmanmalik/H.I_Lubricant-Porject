@@ -14,6 +14,7 @@ import {
   X,
   ShieldCheck,
   ChevronRight,
+  Droplets,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -27,10 +28,12 @@ const AdminLayout = () => {
     { name: 'Dashboard Overview', path: '/admin/dashboard', icon: LayoutDashboard },
     { name: 'Product Management', path: '/admin/products', icon: Package },
     { name: 'Order Management', path: '/admin/orders', icon: ShoppingBag },
+    { name: 'Oil Converters', path: '/admin/oil-converters', icon: Droplets },
     { name: 'Inventory Control', path: '/admin/inventory', icon: Layers },
     { name: 'Customer Directory', path: '/admin/customers', icon: Users },
     { name: 'Contact Inquiries', path: '/admin/messages', icon: Mail },
     { name: 'Store Settings', path: '/admin/settings', icon: Settings },
+    { name: 'Account & Security', path: '/admin/settings/security', icon: ShieldCheck },
   ];
 
   const handleLogout = () => {
@@ -40,6 +43,7 @@ const AdminLayout = () => {
 
   const isActive = (path) => {
     if (path === '/admin/dashboard') return location.pathname === '/admin/dashboard';
+    if (path === '/admin/settings') return location.pathname === '/admin/settings';
     return location.pathname.startsWith(path);
   };
 
@@ -204,7 +208,7 @@ const AdminLayout = () => {
       )}
 
       {/* MAIN ADMIN CONTENT AREA */}
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+      <main className="flex-1 w-full max-w-full p-4 sm:p-6 lg:p-8 overflow-y-auto overflow-x-hidden">
         <Outlet />
       </main>
     </div>

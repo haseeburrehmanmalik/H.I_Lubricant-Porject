@@ -39,6 +39,18 @@ const protect = async (req, res, next) => {
       });
     }
 
+    // Invalidate token if tokenVersion does not match (session invalidated upon password/email change)
+    if (
+      decoded.tokenVersion !== undefined &&
+      user.tokenVersion !== undefined &&
+      decoded.tokenVersion !== user.tokenVersion
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: 'Session expired due to security credential change. Please log in again.',
+      });
+    }
+
     req.user = user;
     next();
   } catch (error) {

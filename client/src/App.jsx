@@ -16,6 +16,8 @@ import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderSuccess from './pages/OrderSuccess';
+import TrackOrder from './pages/TrackOrder';
+import OilConverters from './pages/OilConverters';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
@@ -25,9 +27,11 @@ import AdminLogin from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
 import AdminProducts from './admin/AdminProducts';
 import AdminOrders from './admin/AdminOrders';
+import AdminOilConverters from './admin/AdminOilConverters';
 import AdminInventory from './admin/AdminInventory';
 import AdminCustomers from './admin/AdminCustomers';
 import AdminSettings from './admin/AdminSettings';
+import AdminSecurity from './admin/AdminSecurity';
 import AdminMessages from './admin/AdminMessages';
 
 function App() {
@@ -44,6 +48,8 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/order-success/:orderNumber" element={<OrderSuccess />} />
+              <Route path="/track-order" element={<TrackOrder />} />
+              <Route path="/oil-converters" element={<OilConverters />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="*" element={<NotFound />} />
@@ -59,9 +65,11 @@ function App() {
                 <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProducts />} />
                 <Route path="orders" element={<AdminOrders />} />
+                <Route path="oil-converters" element={<AdminOilConverters />} />
                 <Route path="inventory" element={<AdminInventory />} />
                 <Route path="customers" element={<AdminCustomers />} />
                 <Route path="settings" element={<AdminSettings />} />
+                <Route path="settings/security" element={<AdminSecurity />} />
                 <Route path="messages" element={<AdminMessages />} />
               </Route>
             </Route>

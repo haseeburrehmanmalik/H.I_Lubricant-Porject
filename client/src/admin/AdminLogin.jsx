@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('admin@hilubricant.com');
-  const [password, setPassword] = useState('Admin@12345');
+  const [password, setPassword] = useState('Admin@123456');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -30,7 +30,7 @@ const AdminLogin = () => {
 
   const handleQuickFill = () => {
     setEmail('admin@hilubricant.com');
-    setPassword('Admin@12345');
+    setPassword('Admin@123456');
   };
 
   return (
@@ -134,7 +134,7 @@ const AdminLogin = () => {
             </div>
             <div className="p-2.5 rounded-lg bg-[#090909] border border-[#292722] text-[11px] text-[#A5A19A] space-y-0.5">
               <div>Email: <strong className="text-[#F5F2EA]">admin@hilubricant.com</strong></div>
-              <div>Password: <strong className="text-[#F5F2EA]">Admin@12345</strong></div>
+              <div>Password: <strong className="text-[#F5F2EA]">Admin@123456</strong></div>
             </div>
           </div>
         </div>

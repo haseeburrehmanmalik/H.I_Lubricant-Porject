@@ -10,6 +10,9 @@ import {
   MapPin,
   Clock,
   ExternalLink,
+  Copy,
+  Check,
+  PackageCheck,
 } from 'lucide-react';
 import { orderService } from '../services/orderService';
 import { useSettings } from '../context/SettingsContext';
@@ -23,6 +26,7 @@ const OrderSuccess = () => {
   const [whatsappUrl, setWhatsappUrl] = useState(location.state?.whatsappUrl || '');
   const [loading, setLoading] = useState(!order);
   const [error, setError] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -54,6 +58,7 @@ const OrderSuccess = () => {
               `*Delivery:* ${res.order.deliveryCharges === 0 ? 'FREE' : 'Rs. ' + res.order.deliveryCharges.toLocaleString()}\n` +
               `*Total Amount:* Rs. ${res.order.total.toLocaleString()}\n` +
               `*Payment:* ${res.order.paymentMethod}\n\n` +
+              `Track online at: ${window.location.origin}/track-order\n\n` +
               `Please confirm my order. Thank you!`;
 
             setWhatsappUrl(`https://wa.me/${formattedPhone}?text=${encodeURIComponent(msg)}`);
@@ -71,6 +76,14 @@ const OrderSuccess = () => {
 
     fetchOrder();
   }, [orderNumber]);
+
+  const handleCopyOrderId = () => {
+    if (order?.orderNumber) {
+      navigator.clipboard.writeText(order.orderNumber);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   if (loading) {
     return (
@@ -96,44 +109,56 @@ const OrderSuccess = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
       {/* Success Badge Banner */}
-      <div className="p-8 rounded-3xl bg-gradient-to-b from-[#191919] to-[#141414] border border-[#D7AD55]/50 text-center space-y-4 shadow-card">
+      <div className="p-8 rounded-3xl bg-gradient-to-b from-[#191919] to-[#141414] border border-[#D7AD55]/50 text-center space-y-5 shadow-card">
         <div className="w-16 h-16 rounded-full bg-[#D7AD55]/15 border border-[#D7AD55] text-[#D7AD55] flex items-center justify-center mx-auto shadow-gold-sm">
           <CheckCircle2 size={36} />
         </div>
 
         <div className="space-y-1">
           <span className="text-xs font-bold uppercase tracking-widest text-[#D7AD55]">
-            Order Successfully Placed & Saved in Database
+            Order Confirmed & Saved in Database
           </span>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#F5F2EA]">
             Thank You, {order.customer?.name}!
           </h1>
           <p className="text-xs text-[#A5A19A] max-w-md mx-auto">
-            Your order has been recorded in our system. Our team at H.I Lubricant is preparing your package for dispatch.
+            Your order has been recorded in our database. You can track its live progress anytime using your Order ID.
           </p>
         </div>
 
-        {/* Order Number Badge */}
-        <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-[#090909] border border-[#292722]">
-          <span className="text-xs text-[#A5A19A]">Order Number:</span>
-          <strong className="text-sm font-extrabold text-[#D7AD55]">{order.orderNumber}</strong>
+        {/* Order Number Badge with Copy Feature */}
+        <div className="inline-flex items-center space-x-3 px-4 py-2.5 rounded-2xl bg-[#090909] border border-[#292722]">
+          <span className="text-xs text-[#A5A19A]">Order ID:</span>
+          <strong className="text-base font-extrabold text-[#D7AD55] tracking-wide">{order.orderNumber}</strong>
+          <button
+            onClick={handleCopyOrderId}
+            className="p-1 rounded-md bg-[#191919] border border-[#292722] hover:border-[#D7AD55] text-[#A5A19A] hover:text-[#D7AD55] transition-colors"
+            title="Copy Order ID"
+          >
+            {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+          </button>
         </div>
 
-        {/* WhatsApp Button */}
-        <div className="pt-4 max-w-md mx-auto">
+        {/* Actions: Track Order & WhatsApp */}
+        <div className="pt-3 max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+          <Link
+            to={`/track-order?id=${order.orderNumber}&phone=${encodeURIComponent(order.customer?.phone || '')}`}
+            className="flex-1 py-3 px-4 rounded-xl btn-gold text-xs font-extrabold flex items-center justify-center space-x-2 shadow-gold-sm"
+          >
+            <PackageCheck size={16} />
+            <span>Track Order Progress</span>
+          </Link>
+
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-3.5 px-6 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-black font-extrabold text-xs flex items-center justify-center space-x-2 shadow-lg transition-transform hover:-translate-y-0.5"
+            className="flex-1 py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-black font-extrabold text-xs flex items-center justify-center space-x-2 shadow-md transition-transform hover:-translate-y-0.5"
           >
-            <Phone size={18} />
-            <span>Click to Send Order Details on WhatsApp</span>
-            <ExternalLink size={14} />
+            <Phone size={15} />
+            <span>Send on WhatsApp</span>
+            <ExternalLink size={13} />
           </a>
-          <p className="text-[11px] text-[#A5A19A] mt-2">
-            Opens pre-filled message to +92 311 3728228 with your order number & items list.
-          </p>
         </div>
       </div>
 
@@ -178,7 +203,7 @@ const OrderSuccess = () => {
           </div>
         </div>
 
-        {/* Delivery & Dispatch Details */}
+        {/* Delivery & Customer Details */}
         <div className="p-6 rounded-2xl bg-[#141414] border border-[#292722] space-y-4">
           <h2 className="text-sm font-bold text-[#F5F2EA] flex items-center space-x-2 pb-3 border-b border-[#292722]">
             <MapPin size={16} className="text-[#D7AD55]" />
@@ -218,14 +243,17 @@ const OrderSuccess = () => {
         </div>
       </div>
 
-      {/* Return home link */}
-      <div className="text-center pt-6">
+      {/* Return home & shop links */}
+      <div className="text-center pt-4 flex justify-center space-x-6 text-xs font-semibold">
         <Link
-          to="/shop"
-          className="inline-flex items-center space-x-2 text-xs font-bold text-[#D7AD55] hover:underline"
+          to={`/track-order?id=${order.orderNumber}&phone=${encodeURIComponent(order.customer?.phone || '')}`}
+          className="text-[#D7AD55] hover:underline flex items-center space-x-1"
         >
-          <span>Continue Browsing Products</span>
-          <ArrowRight size={14} />
+          <span>Track Live Progress</span>
+          <ArrowRight size={13} />
+        </Link>
+        <Link to="/shop" className="text-[#A5A19A] hover:text-[#F5F2EA]">
+          Continue Shopping
         </Link>
       </div>
     </div>

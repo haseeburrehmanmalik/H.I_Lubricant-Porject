@@ -6,6 +6,11 @@ export const orderService = {
     return response.data;
   },
 
+  trackOrder: async (trackingData) => {
+    const response = await api.post('/orders/track', trackingData);
+    return response.data;
+  },
+
   getOrderByNumber: async (orderNumber) => {
     const response = await api.get(`/orders/lookup/${orderNumber}`);
     return response.data;
@@ -23,6 +28,16 @@ export const orderService = {
 
   updateOrderStatus: async (id, statusData) => {
     const response = await api.patch(`/orders/admin/${id}/status`, statusData);
+    return response.data;
+  },
+
+  updateOrderPayment: async (id, paymentData) => {
+    const response = await api.patch(`/orders/admin/${id}/payment`, paymentData);
+    return response.data;
+  },
+
+  updateOrderTracking: async (id, trackingData) => {
+    const response = await api.patch(`/orders/admin/${id}/tracking`, trackingData);
     return response.data;
   },
 };

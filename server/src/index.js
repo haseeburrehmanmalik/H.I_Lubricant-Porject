@@ -26,6 +26,8 @@ const customerRoutes = require('./routes/customerRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const converterRoutes = require('./routes/converterRoutes');
+const OilConverter = require('./models/OilConverter');
 
 const app = express();
 
@@ -93,6 +95,7 @@ app.use('/api/admin/customers', customerRoutes);
 app.use('/api/admin/dashboard', dashboardRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api', converterRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -115,6 +118,9 @@ const PORT = process.env.PORT || 5000;
 const startServer = async () => {
   try {
     await connectDB();
+
+    // Ensure all 10 Oil Converter slots exist
+    await OilConverter.ensureTenSlots();
 
     // Check if database needs seeding
     const productCount = await Product.countDocuments();

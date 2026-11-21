@@ -125,16 +125,22 @@ const Cart = () => {
                     <span>•</span>
                     <span>{item.viscosity}</span>
                     <span>•</span>
-                    <span>{item.volume || '4L'}</span>
+                    <span>{item.volume || `${item.quantity} L`}</span>
                   </div>
-                  <Link
-                    to={`/product/${item.slug || item.product}`}
-                    className="font-bold text-sm text-[#F5F2EA] hover:text-[#F2D28A] line-clamp-1"
-                  >
-                    {item.name}
-                  </Link>
+                  {item.isCustomOil ? (
+                    <span className="font-bold text-sm text-[#F5F2EA] block">
+                      {item.name}
+                    </span>
+                  ) : (
+                    <Link
+                      to={`/product/${item.slug || item.product}`}
+                      className="font-bold text-sm text-[#F5F2EA] hover:text-[#F2D28A] line-clamp-1 block"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                   <div className="text-xs font-semibold text-[#D7AD55]">
-                    Rs. {item.price.toLocaleString()} / unit
+                    {item.isCustomOil ? `Rs. ${item.price.toLocaleString()} / Litre` : `Rs. ${item.price.toLocaleString()} / unit`}
                   </div>
                 </div>
               </div>
@@ -144,17 +150,17 @@ const Cart = () => {
                 {/* Stepper */}
                 <div className="inline-flex items-center rounded-lg bg-[#191919] border border-[#292722]">
                   <button
-                    onClick={() => updateQuantity(item.product, item.quantity - 1)}
+                    onClick={() => updateQuantity(item.product, item.isCustomOil ? Math.max(0.5, item.quantity - 0.5) : item.quantity - 1)}
                     className="p-1.5 text-xs text-[#F5F2EA] hover:text-[#D7AD55]"
                     aria-label="Decrease quantity"
                   >
                     <Minus size={13} />
                   </button>
-                  <span className="w-8 text-center text-xs font-bold text-[#F5F2EA]">
-                    {item.quantity}
+                  <span className="w-12 text-center text-xs font-bold text-[#F5F2EA]">
+                    {item.quantity} {item.isCustomOil ? 'L' : ''}
                   </span>
                   <button
-                    onClick={() => updateQuantity(item.product, item.quantity + 1)}
+                    onClick={() => updateQuantity(item.product, item.isCustomOil ? item.quantity + 0.5 : item.quantity + 1)}
                     disabled={item.quantity >= item.stock}
                     className="p-1.5 text-xs text-[#F5F2EA] hover:text-[#D7AD55] disabled:opacity-30"
                     aria-label="Increase quantity"

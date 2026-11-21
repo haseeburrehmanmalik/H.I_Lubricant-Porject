@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Settings,
   Save,
@@ -9,6 +10,7 @@ import {
   MapPin,
   Truck,
   Sparkles,
+  ShieldCheck,
 } from 'lucide-react';
 import { adminService } from '../services/adminService';
 import { useSettings } from '../context/SettingsContext';
@@ -101,13 +103,23 @@ const AdminSettings = () => {
   return (
     <div className="max-w-4xl space-y-6">
       {/* Header */}
-      <div className="pb-6 border-b border-[#292722]">
-        <h1 className="text-2xl font-extrabold text-[#F5F2EA] tracking-tight">
-          Store & Business Configuration
-        </h1>
-        <p className="text-xs text-[#A5A19A] mt-1">
-          Manage H.I Lubricant business contact details, delivery fee thresholds, and WhatsApp integration.
-        </p>
+      <div className="pb-6 border-b border-[#292722] flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-extrabold text-[#F5F2EA] tracking-tight">
+            Store & Business Configuration
+          </h1>
+          <p className="text-xs text-[#A5A19A] mt-1">
+            Manage H.I Lubricant business contact details, delivery fee thresholds, and WhatsApp integration.
+          </p>
+        </div>
+
+        <Link
+          to="/admin/settings/security"
+          className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-[#141414] hover:bg-[#191919] border border-[#D7AD55]/40 hover:border-[#D7AD55] text-xs font-bold text-[#D7AD55] transition-all shadow-sm shrink-0"
+        >
+          <ShieldCheck size={16} />
+          <span>Account & Security</span>
+        </Link>
       </div>
 
       {success && (

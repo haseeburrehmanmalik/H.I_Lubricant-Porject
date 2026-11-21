@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Phone, ShieldCheck, MapPin, ExternalLink, Wrench } from 'lucide-react';
+import {
+  ShoppingCart,
+  Menu,
+  X,
+  Phone,
+  ShieldCheck,
+  Search,
+  PackageCheck,
+  Compass,
+  Droplets,
+} from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useSettings } from '../../context/SettingsContext';
 
@@ -13,7 +23,9 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Shop Products', path: '/shop' },
+    { name: 'Oil Converters', path: '/oil-converters' },
     { name: 'About Us', path: '/about' },
+    { name: 'Track Order', path: '/track-order', highlight: true },
     { name: 'Contact & Location', path: '/contact' },
   ];
 
@@ -22,50 +34,15 @@ const Navbar = () => {
     return location.pathname.startsWith(path);
   };
 
+  const whatsappPhone = (settings.whatsappNumber || '+923113728228').replace(/[^0-9]/g, '');
+
   return (
     <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#090909]/95 border-b border-[#292722]">
-      {/* Top Announcement Bar */}
-      <div className="bg-[#141414] border-b border-[#292722]/60 py-1.5 px-4 text-xs text-[#A5A19A]">
-        <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
-          <div className="flex items-center space-x-2">
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D7AD55] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D7AD55]"></span>
-            </span>
-            <span className="font-medium text-[#F5F2EA]">
-              {settings.announcement || '100% Genuine Automotive Lubricants in Hyderabad, Sindh.'}
-            </span>
-          </div>
-
-          <div className="hidden md:flex items-center space-x-6 text-xs">
-            <a
-              href={`tel:${settings.phone}`}
-              className="flex items-center space-x-1.5 hover:text-[#D7AD55] transition-colors"
-            >
-              <Phone size={13} className="text-[#D7AD55]" />
-              <span>{settings.phone}</span>
-            </a>
-            <div className="flex items-center space-x-1.5 text-[#A5A19A]">
-              <MapPin size={13} className="text-[#D7AD55]" />
-              <span>Gari Khata, Hyderabad</span>
-            </div>
-            <Link
-              to="/admin/login"
-              className="text-[#A5A19A] hover:text-[#F2D28A] transition-colors flex items-center space-x-1"
-            >
-              <ShieldCheck size={13} className="text-[#D7AD55]" />
-              <span>Admin Portal</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo & Brand Identity */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-[#1c1a16] to-[#121212] border border-[#D7AD55]/60 flex items-center justify-center p-2 shadow-gold-sm group-hover:border-[#D7AD55] transition-all">
+          {/* Left Side: Logo & Brand Name & HYD Badge */}
+          <Link to="/" className="flex items-center space-x-3 group shrink-0">
+            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#1c1a16] to-[#121212] border border-[#D7AD55]/60 flex items-center justify-center p-2 shadow-gold-sm group-hover:border-[#D7AD55] transition-all">
               <svg viewBox="0 0 100 100" className="w-full h-full">
                 <circle cx="50" cy="50" r="42" stroke="#D7AD55" strokeWidth="6" fill="none" />
                 <path d="M35 30 L65 30 L65 42 L55 42 L55 70 L45 70 L45 42 L35 42 Z" fill="#D7AD55" />
@@ -87,43 +64,53 @@ const Navbar = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`px-3.5 py-2 rounded-md text-sm font-medium transition-all ${
-                  isActive(link.path)
-                    ? 'text-[#D7AD55] bg-[#141414] border border-[#292722]'
-                    : 'text-[#A5A19A] hover:text-[#F5F2EA] hover:bg-[#141414]/50'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+          {/* Center: Main Navigation Links */}
+          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">
+            {navLinks.map((link) => {
+              const active = isActive(link.path);
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all ${
+                    active
+                      ? 'text-[#D7AD55] bg-[#141414] border border-[#D7AD55]/40 shadow-sm'
+                      : link.highlight
+                      ? 'text-[#F5F2EA] hover:text-[#D7AD55] hover:bg-[#141414] border border-[#292722]/70'
+                      : 'text-[#A5A19A] hover:text-[#F5F2EA] hover:bg-[#141414]/60'
+                  }`}
+                >
+                  <span className="flex items-center space-x-1.5">
+                    {link.highlight && <PackageCheck size={14} className={active ? 'text-[#D7AD55]' : 'text-[#D7AD55]/80'} />}
+                    <span>{link.name}</span>
+                  </span>
+                </Link>
+              );
+            })}
           </nav>
 
-          {/* Right Header Actions */}
+          {/* Right Side: WhatsApp Button & Shopping Cart */}
           <div className="flex items-center space-x-3 sm:space-x-4">
-            {/* WhatsApp CTA */}
+            {/* WhatsApp Contact CTA */}
             <a
-              href={`https://wa.me/${(settings.whatsappNumber || '+923113728228').replace(/[^0-9]/g, '')}`}
+              href={`https://wa.me/${whatsappPhone}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center space-x-2 px-3.5 py-2 rounded-lg bg-[#141414] border border-[#292722] text-[#F5F2EA] text-xs font-semibold hover:border-[#D7AD55] hover:text-[#D7AD55] transition-all"
+              className="hidden sm:inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-[#141414] border border-[#292722] text-[#F5F2EA] text-xs font-semibold hover:border-[#D7AD55] hover:text-[#D7AD55] transition-all shadow-sm"
+              title="Chat with H.I Lubricant on WhatsApp"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span>WhatsApp: 0311-3728228</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <Phone size={13} className="text-[#25D366]" />
+              <span className="font-bold">0311-3728228</span>
             </a>
 
-            {/* Shopping Cart Icon */}
+            {/* Shopping Cart Icon with Live Badge */}
             <Link
               to="/cart"
-              className="relative p-2.5 rounded-lg bg-[#141414] border border-[#292722] text-[#F5F2EA] hover:border-[#D7AD55] hover:text-[#D7AD55] transition-all"
+              className="relative p-2.5 rounded-xl bg-[#141414] border border-[#292722] text-[#F5F2EA] hover:border-[#D7AD55] hover:text-[#D7AD55] transition-all shadow-sm"
               aria-label="Shopping Cart"
             >
-              <ShoppingCart size={20} />
+              <ShoppingCart size={19} />
               {itemCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 bg-[#D7AD55] text-[#090909] font-extrabold text-[11px] h-5 min-w-[20px] px-1 rounded-full flex items-center justify-center shadow-gold-sm animate-pulse">
                   {itemCount}
@@ -131,10 +118,10 @@ const Navbar = () => {
               )}
             </Link>
 
-            {/* Mobile Hamburger Toggle */}
+            {/* Mobile Hamburger Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg bg-[#141414] border border-[#292722] text-[#F5F2EA] hover:text-[#D7AD55]"
+              className="lg:hidden p-2 rounded-xl bg-[#141414] border border-[#292722] text-[#F5F2EA] hover:text-[#D7AD55]"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -143,44 +130,50 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Responsive Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0e0e0e] border-b border-[#292722] px-4 pt-3 pb-6 space-y-3 animate-fadeIn">
-          <nav className="flex flex-col space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  isActive(link.path)
-                    ? 'bg-[#191919] text-[#D7AD55] border border-[#292722]'
-                    : 'text-[#A5A19A] hover:text-[#F5F2EA] hover:bg-[#141414]'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+        <div className="lg:hidden bg-[#0e0e0e] border-b border-[#292722] px-4 pt-3 pb-6 space-y-3 animate-fadeIn">
+          <nav className="flex flex-col space-y-1.5">
+            {navLinks.map((link) => {
+              const active = isActive(link.path);
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center space-x-2 transition-colors ${
+                    active
+                      ? 'bg-[#191919] text-[#D7AD55] border border-[#D7AD55]/40'
+                      : 'text-[#A5A19A] hover:text-[#F5F2EA] hover:bg-[#141414]'
+                  }`}
+                >
+                  {link.highlight && <PackageCheck size={15} className="text-[#D7AD55]" />}
+                  <span>{link.name}</span>
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="pt-3 border-t border-[#292722] space-y-2">
             <a
-              href={`https://wa.me/${(settings.whatsappNumber || '+923113728228').replace(/[^0-9]/g, '')}`}
+              href={`https://wa.me/${whatsappPhone}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center space-x-2 w-full py-2.5 rounded-lg bg-[#191919] border border-[#292722] text-xs font-semibold text-[#D7AD55]"
+              className="flex items-center justify-center space-x-2 w-full py-2.5 rounded-xl bg-[#141414] border border-[#292722] text-xs font-bold text-[#D7AD55]"
             >
-              <span>Instant WhatsApp Inquiry: 0311-3728228</span>
+              <Phone size={14} className="text-[#25D366]" />
+              <span>WhatsApp Inquiry: +92 311 3728228</span>
             </a>
 
             <div className="flex justify-between items-center pt-2 px-1 text-xs text-[#A5A19A]">
-              <span>Near Gari Khata, Hyderabad</span>
+              <span>Gari Khata, Hyderabad</span>
               <Link
                 to="/admin/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-[#D7AD55] hover:underline"
+                className="text-[#D7AD55] hover:underline flex items-center space-x-1"
               >
-                Admin Login
+                <ShieldCheck size={12} />
+                <span>Admin Login</span>
               </Link>
             </div>
           </div>

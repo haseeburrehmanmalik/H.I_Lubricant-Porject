@@ -81,10 +81,23 @@ const Checkout = () => {
           city: formData.city.trim(),
           address: formData.address.trim(),
         },
-        items: cart.map((item) => ({
-          product: item.product,
-          quantity: item.quantity,
-        })),
+        items: cart.map((item) => {
+          if (item.isCustomOil) {
+            return {
+              isCustomOil: true,
+              converterId: item.converterId,
+              converterNumber: item.converterNumber,
+              litres: item.litres || item.quantity,
+              unit: item.unit || 'L',
+              quantity: item.quantity,
+              name: item.name,
+            };
+          }
+          return {
+            product: item.product,
+            quantity: item.quantity,
+          };
+        }),
         paymentMethod: formData.paymentMethod,
         notes: formData.notes.trim(),
       };
@@ -318,7 +331,7 @@ const Checkout = () => {
                   <div className="truncate">
                     <div className="font-semibold text-[#F5F2EA] truncate">{item.name}</div>
                     <div className="text-[11px] text-[#A5A19A]">
-                      {item.viscosity} • Qty: {item.quantity}
+                      {item.isCustomOil ? item.volume : `${item.viscosity} • Qty: ${item.quantity}`}
                     </div>
                   </div>
                 </div>

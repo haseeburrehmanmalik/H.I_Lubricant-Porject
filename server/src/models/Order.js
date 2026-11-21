@@ -4,7 +4,19 @@ const orderItemSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product',
-    required: true,
+    required: false,
+  },
+  converter: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'OilConverter',
+    required: false,
+  },
+  isCustomOil: {
+    type: Boolean,
+    default: false,
+  },
+  converterNumber: {
+    type: Number,
   },
   name: {
     type: String,
@@ -18,7 +30,14 @@ const orderItemSchema = new mongoose.Schema({
   quantity: {
     type: Number,
     required: true,
-    min: 1,
+    min: 0.1,
+  },
+  unit: {
+    type: String,
+    default: 'L',
+  },
+  litres: {
+    type: Number,
   },
   image: {
     type: String,
@@ -35,6 +54,41 @@ const orderItemSchema = new mongoose.Schema({
     min: 0,
   },
 });
+
+const trackingHistorySchema = new mongoose.Schema(
+  {
+    status: {
+      type: String,
+      required: true,
+      enum: [
+        'Pending',
+        'Confirmed',
+        'Processing',
+        'Packed',
+        'Shipped',
+        'Out for Delivery',
+        'Delivered',
+        'Cancelled',
+        'Returned',
+      ],
+    },
+    notes: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    updatedBy: {
+      type: String,
+      default: 'System',
+      trim: true,
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: true }
+);
 
 const orderSchema = new mongoose.Schema(
   {
@@ -101,12 +155,32 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: ['Unpaid', 'Paid'],
       default: 'Unpaid',
+      index: true,
     },
     orderStatus: {
       type: String,
-      enum: ['Pending', 'Confirmed', 'Processing', 'Completed', 'Cancelled'],
+      enum: [
+        'Pending',
+        'Confirmed',
+        'Processing',
+        'Packed',
+        'Shipped',
+        'Out for Delivery',
+        'Delivered',
+        'Cancelled',
+        'Returned',
+      ],
       default: 'Pending',
       index: true,
+    },
+    estimatedDeliveryDate: {
+      type: Date,
+    },
+    trackingHistory: [trackingHistorySchema],
+    trackingNotes: {
+      type: String,
+      default: '',
+      trim: true,
     },
     inventoryDeducted: {
       type: Boolean,
@@ -132,6 +206,7 @@ const orderSchema = new mongoose.Schema(
 
 orderSchema.index({ createdAt: -1 });
 orderSchema.index({ 'customer.phone': 1 });
+orderSchema.index({ 'customer.email': 1 });
 orderSchema.index({ 'customer.name': 'text' });
 
 module.exports = mongoose.model('Order', orderSchema);

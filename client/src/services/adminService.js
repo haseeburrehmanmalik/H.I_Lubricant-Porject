@@ -76,6 +76,27 @@ export const adminService = {
     return response.data;
   },
 
+  // Account & Security Settings
+  getAccountInfo: async () => {
+    const response = await api.get('/admin/settings/account');
+    return response.data;
+  },
+
+  changeEmail: async (emailData) => {
+    const response = await api.put('/admin/settings/email', emailData);
+    return response.data;
+  },
+
+  changePassword: async (passwordData) => {
+    const response = await api.put('/admin/settings/password', passwordData);
+    return response.data;
+  },
+
+  logoutAllSessions: async () => {
+    const response = await api.post('/admin/settings/logout-all');
+    return response.data;
+  },
+
   // Messages
   getContactMessages: async () => {
     const response = await api.get('/contact/admin');

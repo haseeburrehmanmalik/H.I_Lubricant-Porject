@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+*/node_modules/
 .pnp
 .pnp.js
 
@@ -13,14 +14,25 @@ yarn-error.log*
 # Production Build
 client/dist/
 client/dist-ssr/
+dist/
+build/
 
-# Environment Variables
+# Environment Variables & Secrets
 .env
+.env.*
+*.env
+*.env.local
+*.env.production
 server/.env
 server/.env.local
 server/.env.production
+client/.env
+client/.env.local
+client/.env.production
+!.env.example
+!server/.env.example
 
-# Uploaded Media (keep default sample assets if needed)
+# Uploaded Media
 server/uploads/*
 !server/uploads/.gitkeep
 

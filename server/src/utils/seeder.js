@@ -13,6 +13,7 @@ const Order = require('../models/Order');
 const InventoryTransaction = require('../models/InventoryTransaction');
 const Customer = require('../models/Customer');
 const StoreSettings = require('../models/StoreSettings');
+const OilConverter = require('../models/OilConverter');
 
 const seedData = async () => {
   try {
@@ -56,7 +57,7 @@ const seedData = async () => {
     const adminUser = await User.create({
       name: 'Malik Imran Ali',
       email: process.env.ADMIN_DEFAULT_EMAIL || 'admin@hilubricant.com',
-      password: process.env.ADMIN_DEFAULT_PASSWORD || 'Admin@12345',
+      password: process.env.ADMIN_DEFAULT_PASSWORD || 'Admin@123456',
       role: 'admin',
       phone: '+92 3113728228',
       isActive: true,
@@ -735,7 +736,10 @@ const seedData = async () => {
     await Customer.insertMany(sampleCustomers);
     console.log(`[Seeder] Sample customers seeded.`);
 
-    // 7. Sample Orders for Dashboard Analytics
+    // 7. Sample Orders for Dashboard Analytics & Tracking
+    const now = Date.now();
+    const day = 24 * 60 * 60 * 1000;
+
     const sampleOrders = [
       {
         orderNumber: 'HI-2026-10492',
@@ -764,11 +768,57 @@ const seedData = async () => {
         total: 9800,
         paymentMethod: 'Cash on Delivery',
         paymentStatus: 'Paid',
-        orderStatus: 'Completed',
+        orderStatus: 'Delivered',
+        estimatedDeliveryDate: new Date(now - 1 * day),
+        trackingNotes: 'Successfully delivered to customer in Qasimabad Hyderabad.',
+        trackingHistory: [
+          {
+            status: 'Pending',
+            notes: 'Order received via online store',
+            updatedBy: 'Customer',
+            updatedAt: new Date(now - 5 * day),
+          },
+          {
+            status: 'Confirmed',
+            notes: 'Order confirmed by sales team after verification call',
+            updatedBy: 'Malik Imran Ali',
+            updatedAt: new Date(now - 4 * day),
+          },
+          {
+            status: 'Processing',
+            notes: 'Products picked from warehouse and quality checked',
+            updatedBy: 'Malik Imran Ali',
+            updatedAt: new Date(now - 3 * day),
+          },
+          {
+            status: 'Packed',
+            notes: 'Package sealed with tamper-evident tape',
+            updatedBy: 'Warehouse Staff',
+            updatedAt: new Date(now - 2 * day),
+          },
+          {
+            status: 'Shipped',
+            notes: 'Dispatched with Hyderabad express delivery courier',
+            updatedBy: 'Dispatch Dept',
+            updatedAt: new Date(now - 2 * day + 3600000),
+          },
+          {
+            status: 'Out for Delivery',
+            notes: 'Rider is on the way to Qasimabad',
+            updatedBy: 'Rider Aslam',
+            updatedAt: new Date(now - 1 * day),
+          },
+          {
+            status: 'Delivered',
+            notes: 'Order handed over to customer. Cash collected.',
+            updatedBy: 'Rider Aslam',
+            updatedAt: new Date(now - 1 * day + 7200000),
+          },
+        ],
         inventoryDeducted: true,
         inventoryRestored: false,
         notes: 'Call before delivery.',
-        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+        createdAt: new Date(now - 5 * day),
       },
       {
         orderNumber: 'HI-2026-10493',
@@ -807,11 +857,45 @@ const seedData = async () => {
         total: 16800,
         paymentMethod: 'Cash on Delivery',
         paymentStatus: 'Paid',
-        orderStatus: 'Confirmed',
+        orderStatus: 'Shipped',
+        estimatedDeliveryDate: new Date(now + 1 * day),
+        trackingNotes: 'In transit to Gari Khata workshop area.',
+        trackingHistory: [
+          {
+            status: 'Pending',
+            notes: 'Order received via online checkout',
+            updatedBy: 'Customer',
+            updatedAt: new Date(now - 3 * day),
+          },
+          {
+            status: 'Confirmed',
+            notes: 'Order verified with customer workshop',
+            updatedBy: 'Malik Imran Ali',
+            updatedAt: new Date(now - 2 * day),
+          },
+          {
+            status: 'Processing',
+            notes: 'Engine oils pulled from central rack',
+            updatedBy: 'Warehouse Staff',
+            updatedAt: new Date(now - 1 * day),
+          },
+          {
+            status: 'Packed',
+            notes: 'Cans wrapped in safety bubble wrap',
+            updatedBy: 'Warehouse Staff',
+            updatedAt: new Date(now - 18 * 3600000),
+          },
+          {
+            status: 'Shipped',
+            notes: 'Dispatched for local workshop delivery',
+            updatedBy: 'Dispatch Dept',
+            updatedAt: new Date(now - 6 * 3600000),
+          },
+        ],
         inventoryDeducted: true,
         inventoryRestored: false,
         notes: 'Urgent delivery needed for customer workshop car.',
-        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+        createdAt: new Date(now - 3 * day),
       },
       {
         orderNumber: 'HI-2026-10494',
@@ -841,10 +925,32 @@ const seedData = async () => {
         paymentMethod: 'Cash on Delivery',
         paymentStatus: 'Unpaid',
         orderStatus: 'Processing',
+        estimatedDeliveryDate: new Date(now + 2 * day),
+        trackingNotes: 'Honda OEM oil batch allocated from fresh stock.',
+        trackingHistory: [
+          {
+            status: 'Pending',
+            notes: 'Order submitted by customer',
+            updatedBy: 'Customer',
+            updatedAt: new Date(now - 1 * day),
+          },
+          {
+            status: 'Confirmed',
+            notes: 'Payment and delivery address verified',
+            updatedBy: 'Malik Imran Ali',
+            updatedAt: new Date(now - 12 * 3600000),
+          },
+          {
+            status: 'Processing',
+            notes: 'Allocating verified bottle with hologram seal',
+            updatedBy: 'Warehouse Staff',
+            updatedAt: new Date(now - 4 * 3600000),
+          },
+        ],
         inventoryDeducted: true,
         inventoryRestored: false,
         notes: 'Please verify original seal packaging.',
-        createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+        createdAt: new Date(now - 1 * day),
       },
       {
         orderNumber: 'HI-2026-10495',
@@ -874,10 +980,20 @@ const seedData = async () => {
         paymentMethod: 'Cash on Delivery',
         paymentStatus: 'Unpaid',
         orderStatus: 'Pending',
+        estimatedDeliveryDate: new Date(now + 2 * day),
+        trackingNotes: 'Order received. Awaiting dispatch confirmation.',
+        trackingHistory: [
+          {
+            status: 'Pending',
+            notes: 'Order placed by customer via web platform',
+            updatedBy: 'Customer',
+            updatedAt: new Date(now - 2 * 3600000),
+          },
+        ],
         inventoryDeducted: true,
         inventoryRestored: false,
         notes: 'Delivery in evening after 6 PM.',
-        createdAt: new Date(),
+        createdAt: new Date(now - 2 * 3600000),
       },
       {
         orderNumber: 'HI-2026-10496',
@@ -906,15 +1022,34 @@ const seedData = async () => {
         paymentMethod: 'Cash on Delivery',
         paymentStatus: 'Unpaid',
         orderStatus: 'Cancelled',
+        trackingNotes: 'Order cancelled by customer. Inventory returned.',
+        trackingHistory: [
+          {
+            status: 'Pending',
+            notes: 'Order initiated',
+            updatedBy: 'Customer',
+            updatedAt: new Date(now - 2 * day),
+          },
+          {
+            status: 'Cancelled',
+            notes: 'Customer requested cancellation due to wrong viscosity selection. Stock restored.',
+            updatedBy: 'Malik Imran Ali',
+            updatedAt: new Date(now - 2 * day + 7200000),
+          },
+        ],
         inventoryDeducted: true,
-        inventoryRestored: true, // Demonstrating inventory restoration!
+        inventoryRestored: true,
         adminNotes: 'Customer cancelled due to incorrect viscosity choice.',
-        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+        createdAt: new Date(now - 2 * day),
       },
     ];
 
     await Order.insertMany(sampleOrders);
     console.log(`[Seeder] ${sampleOrders.length} Sample orders created with real metrics.`);
+
+    // Seed 10 Dynamic Oil Converters
+    await OilConverter.ensureTenSlots();
+    console.log('[Seeder] 10 Dynamic Oil Converters verified/initialized.');
 
     console.log('==================================================');
     console.log('  H.I LUBRICANT DATABASE SEEDING COMPLETED SUCCESS  ');

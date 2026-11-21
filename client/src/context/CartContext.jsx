@@ -90,8 +90,70 @@ export const CartProvider = ({ children }) => {
     return true;
   };
 
+  const addCustomOilToCart = (converter, litres, unit = 'L', originalQuantity = null) => {
+    if (!converter || !converter.enabled) {
+      showNotification('This oil converter is currently unavailable', 'error');
+      return false;
+    }
+
+    const parsedLitres = parseFloat(litres);
+    if (isNaN(parsedLitres) || parsedLitres <= 0) {
+      showNotification('Please enter a valid quantity', 'error');
+      return false;
+    }
+
+    if (converter.availableLitres < parsedLitres) {
+      showNotification(
+        `Insufficient bulk stock. Only ${converter.availableLitres} Litres available.`,
+        'error'
+      );
+      return false;
+    }
+
+    const calculatedPrice = Math.round(parsedLitres * converter.pricePerLitre);
+    const cartItemId = `custom-converter-${converter._id || converter.converterNumber}`;
+
+    setCart((prevCart) => {
+      const existingIndex = prevCart.findIndex((item) => item.product === cartItemId);
+      const formattedVolume =
+        unit === 'ml'
+          ? `${originalQuantity || Math.round(parsedLitres * 1000)} ml (${parsedLitres} L)`
+          : `${parsedLitres} Litres`;
+
+      const newItem = {
+        product: cartItemId,
+        converterId: converter._id,
+        converterNumber: converter.converterNumber,
+        isCustomOil: true,
+        name: converter.name,
+        brand: converter.brand,
+        viscosity: 'Bulk / Open Oil',
+        volume: formattedVolume,
+        unit: unit,
+        litres: parsedLitres,
+        price: converter.pricePerLitre,
+        totalItemPrice: calculatedPrice,
+        stock: converter.availableLitres,
+        image: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80',
+        quantity: parsedLitres,
+      };
+
+      if (existingIndex > -1) {
+        const updated = [...prevCart];
+        updated[existingIndex] = newItem;
+        showNotification(`Updated "${converter.name}" (${formattedVolume}) in cart!`);
+        return updated;
+      } else {
+        showNotification(`Added "${converter.name}" (${formattedVolume}) to cart!`);
+        return [...prevCart, newItem];
+      }
+    });
+
+    return true;
+  };
+
   const updateQuantity = (productId, newQuantity) => {
-    const qty = parseInt(newQuantity, 10);
+    const qty = parseFloat(newQuantity);
     if (isNaN(qty) || qty <= 0) {
       removeFromCart(productId);
       return;
@@ -101,7 +163,7 @@ export const CartProvider = ({ children }) => {
       prevCart.map((item) => {
         if (item.product === productId) {
           if (qty > item.stock) {
-            showNotification(`Only ${item.stock} units in stock`, 'error');
+            showNotification(`Only ${item.stock} available in stock`, 'error');
             return { ...item, quantity: item.stock };
           }
           return { ...item, quantity: qty };
@@ -144,6 +206,7 @@ export const CartProvider = ({ children }) => {
         total,
         notification,
         addToCart,
+        addCustomOilToCart,
         updateQuantity,
         removeFromCart,
         clearCart,

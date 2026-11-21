@@ -81,6 +81,18 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/oil-converters" className="hover:text-[#F2D28A] transition-colors flex items-center space-x-1 text-[#D7AD55]">
+                  <ArrowRight size={12} className="text-[#D7AD55]" />
+                  <span>Smart Oil Converters</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/track-order" className="hover:text-[#F2D28A] transition-colors flex items-center space-x-1 text-[#D7AD55]">
+                  <ArrowRight size={12} className="text-[#D7AD55]" />
+                  <span>Track Your Order</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/about" className="hover:text-[#F2D28A] transition-colors flex items-center space-x-1">
                   <ArrowRight size={12} className="text-[#D7AD55]" />
                   <span>About Our Business</span>

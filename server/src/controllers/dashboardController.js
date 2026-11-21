@@ -10,7 +10,7 @@ exports.getDashboardSummary = async (req, res, next) => {
   try {
     const totalProducts = await Product.countDocuments({ isActive: true });
     const allProductsCount = await Product.countDocuments();
-    
+
     // Low stock count (stock <= lowStockThreshold or stock <= 5)
     const lowStockProducts = await Product.countDocuments({
       $expr: { $lte: ['$stock', '$lowStockThreshold'] },
@@ -22,19 +22,23 @@ exports.getDashboardSummary = async (req, res, next) => {
       isActive: true,
     });
 
-    // Orders counts by status
+    // Orders counts by status across the 9 stages
     const totalOrders = await Order.countDocuments();
     const pendingOrders = await Order.countDocuments({ orderStatus: 'Pending' });
     const confirmedOrders = await Order.countDocuments({ orderStatus: 'Confirmed' });
     const processingOrders = await Order.countDocuments({ orderStatus: 'Processing' });
-    const completedOrders = await Order.countDocuments({ orderStatus: 'Completed' });
+    const packedOrders = await Order.countDocuments({ orderStatus: 'Packed' });
+    const shippedOrders = await Order.countDocuments({ orderStatus: 'Shipped' });
+    const outForDeliveryOrders = await Order.countDocuments({ orderStatus: 'Out for Delivery' });
+    const deliveredOrders = await Order.countDocuments({ orderStatus: 'Delivered' });
     const cancelledOrders = await Order.countDocuments({ orderStatus: 'Cancelled' });
+    const returnedOrders = await Order.countDocuments({ orderStatus: 'Returned' });
 
-    // Total Revenue from valid orders (Completed, Confirmed, Processing)
+    // Total Revenue from valid active/fulfilled orders (excluding Cancelled & Returned)
     const revenueAggregation = await Order.aggregate([
       {
         $match: {
-          orderStatus: { $in: ['Completed', 'Confirmed', 'Processing'] },
+          orderStatus: { $nin: ['Cancelled', 'Returned'] },
         },
       },
       {
@@ -60,8 +64,12 @@ exports.getDashboardSummary = async (req, res, next) => {
         pendingOrders,
         confirmedOrders,
         processingOrders,
-        completedOrders,
+        packedOrders,
+        shippedOrders,
+        outForDeliveryOrders,
+        deliveredOrders,
         cancelledOrders,
+        returnedOrders,
         totalRevenue,
         totalCustomers,
       },
@@ -76,11 +84,10 @@ exports.getDashboardSummary = async (req, res, next) => {
 // @access  Private/Admin
 exports.getSalesChart = async (req, res, next) => {
   try {
-    // Aggregate orders by past 7 days / recent months
     const salesData = await Order.aggregate([
       {
         $match: {
-          orderStatus: { $ne: 'Cancelled' },
+          orderStatus: { $nin: ['Cancelled', 'Returned'] },
         },
       },
       {
@@ -100,7 +107,6 @@ exports.getSalesChart = async (req, res, next) => {
       },
     ]);
 
-    // Format for client chart
     const formatted = salesData.map((item) => ({
       date: item._id,
       revenue: item.revenue,
