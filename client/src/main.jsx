@@ -4,6 +4,13 @@ import { HashRouter } from 'react-router-dom';
 import App from './App.jsx';
 import './index.css';
 
+// Automatically handle direct clean URLs (e.g. /oil-converters -> /#/oil-converters)
+const cleanPath = window.location.pathname.replace(/^\/H\.I_Lubricant-Porject/, '');
+if (cleanPath && cleanPath !== '/' && !window.location.hash) {
+  const prefix = window.location.pathname.startsWith('/H.I_Lubricant-Porject') ? '/H.I_Lubricant-Porject/#' : '/#';
+  window.location.replace(prefix + cleanPath + window.location.search);
+}
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
