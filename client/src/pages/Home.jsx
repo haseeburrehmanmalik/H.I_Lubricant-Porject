@@ -165,10 +165,10 @@ const Home = () => {
                   loop
                   muted
                   playsInline
-                  poster="/assets/images/hero-poster.jpg"
+                  poster="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&q=80"
                   className="w-full h-full object-cover"
                 >
-                  <source src="/assets/videos/hi-lubricant-hero.mp4" type="video/mp4" />
+                  <source src="https://assets.mixkit.co/videos/preview/mixkit-car-mechanic-pouring-oil-into-an-engine-43093-large.mp4" type="video/mp4" />
                 </video>
 
                 {/* Subtle dark gradient overlay for depth */}

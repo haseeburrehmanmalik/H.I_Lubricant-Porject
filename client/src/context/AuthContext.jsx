@@ -5,10 +5,20 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('hi_admin_user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('hi_admin_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
   });
-  const [token, setToken] = useState(() => localStorage.getItem('hi_admin_token') || null);
+  const [token, setToken] = useState(() => {
+    try {
+      return localStorage.getItem('hi_admin_token') || null;
+    } catch (e) {
+      return null;
+    }
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,7 +28,9 @@ export const AuthProvider = ({ children }) => {
           const data = await adminService.getMe();
           if (data.success) {
             setUser(data.user);
-            localStorage.setItem('hi_admin_user', JSON.stringify(data.user));
+            try {
+              localStorage.setItem('hi_admin_user', JSON.stringify(data.user));
+            } catch (e) {}
           }
         } catch (error) {
           console.warn('Session expired or invalid token:', error.message);
@@ -36,8 +48,10 @@ export const AuthProvider = ({ children }) => {
     if (data.success) {
       setToken(data.token);
       setUser(data.user);
-      localStorage.setItem('hi_admin_token', data.token);
-      localStorage.setItem('hi_admin_user', JSON.stringify(data.user));
+      try {
+        localStorage.setItem('hi_admin_token', data.token);
+        localStorage.setItem('hi_admin_user', JSON.stringify(data.user));
+      } catch (e) {}
       return data;
     }
     throw new Error(data.message || 'Login failed');
@@ -46,8 +60,10 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem('hi_admin_token');
-    localStorage.removeItem('hi_admin_user');
+    try {
+      localStorage.removeItem('hi_admin_token');
+      localStorage.removeItem('hi_admin_user');
+    } catch (e) {}
   };
 
   const updateProfile = async (profileData) => {
