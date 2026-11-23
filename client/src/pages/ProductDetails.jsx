@@ -95,6 +95,8 @@ const ProductDetails = () => {
 
   const isOutOfStock = product.stock <= 0;
   const isLowStock = product.stock > 0 && product.stock <= (product.lowStockThreshold || 5);
+  const brandName = typeof product.brand === 'object' ? (product.brand?.name || '') : (product.brand || '');
+  const categoryName = typeof product.category === 'object' ? (product.category?.name || '') : (product.category || '');
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
@@ -111,7 +113,7 @@ const ProductDetails = () => {
     `*Assalam-o-Alaikum H.I Lubricant!*\n\n` +
     `I am interested in purchasing:\n` +
     `*Product:* ${product.name}\n` +
-    `*Brand:* ${product.brand}\n` +
+    `*Brand:* ${brandName}\n` +
     `*Viscosity:* ${product.viscosity}\n` +
     `*Volume:* ${product.volume || '4L'}\n` +
     `*Price:* Rs. ${product.price?.toLocaleString()}\n` +
@@ -132,8 +134,8 @@ const ProductDetails = () => {
           Shop
         </Link>
         <ChevronRight size={12} />
-        <Link to={`/shop?brand=${encodeURIComponent(product.brand)}`} className="hover:text-[#F5F2EA]">
-          {product.brand}
+        <Link to={`/shop?brand=${encodeURIComponent(brandName)}`} className="hover:text-[#F5F2EA]">
+          {brandName}
         </Link>
         <ChevronRight size={12} />
         <span className="text-[#D7AD55] truncate max-w-xs">{product.name}</span>
@@ -153,7 +155,7 @@ const ProductDetails = () => {
             {/* Badges */}
             <div className="absolute top-4 left-4 flex flex-col gap-2">
               <span className="px-3 py-1 rounded bg-[#090909]/90 border border-[#D7AD55]/50 text-[#D7AD55] text-xs font-bold">
-                {product.brand}
+                {brandName}
               </span>
               <span className="px-3 py-1 rounded bg-[#090909]/90 border border-[#292722] text-[#F5F2EA] text-xs font-bold">
                 {product.viscosity}
@@ -206,7 +208,7 @@ const ProductDetails = () => {
           <div>
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="text-xs uppercase font-bold tracking-wider text-[#D7AD55]">
-                {product.category}
+                {categoryName}
               </span>
               <button
                 onClick={handleShare}
@@ -230,7 +232,7 @@ const ProductDetails = () => {
                 Pack Size: {product.volume || '4 Litres'}
               </span>
               <span className="px-2.5 py-1 rounded bg-[#191919] border border-[#292722] text-[#A5A19A]">
-                Brand: <strong className="text-[#F5F2EA]">{product.brand}</strong>
+                Brand: <strong className="text-[#F5F2EA]">{brandName}</strong>
               </span>
             </div>
           </div>
@@ -384,7 +386,7 @@ const ProductDetails = () => {
         <div className="pt-12 border-t border-[#292722] space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-[#F5F2EA]">
-              Related Lubricants from {product.brand}
+              Related Lubricants from {brandName}
             </h2>
             <Link to="/shop" className="text-xs text-[#D7AD55] font-semibold hover:underline">
               View All

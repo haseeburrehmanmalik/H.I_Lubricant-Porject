@@ -8,6 +8,9 @@ const ProductCard = ({ product }) => {
 
   if (!product) return null;
 
+  const brandName = typeof product.brand === 'object' ? (product.brand?.name || '') : (product.brand || '');
+  const categoryName = typeof product.category === 'object' ? (product.category?.name || '') : (product.category || '');
+
   const isOutOfStock = product.stock <= 0;
   const isLowStock = product.stock > 0 && product.stock <= (product.lowStockThreshold || 5);
   const imageSrc =
@@ -35,7 +38,7 @@ const ProductCard = ({ product }) => {
         {/* Floating Top Badges */}
         <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10">
           <span className="px-2 py-0.5 rounded bg-[#090909]/80 backdrop-blur-md border border-[#D7AD55]/40 text-[#D7AD55] text-[11px] font-bold tracking-wide">
-            {product.brand}
+            {brandName}
           </span>
           {product.featured && (
             <span className="px-2 py-0.5 rounded bg-[#D7AD55] text-[#090909] text-[10px] font-extrabold uppercase tracking-wider">
@@ -65,7 +68,7 @@ const ProductCard = ({ product }) => {
       <div className="p-4 flex flex-col flex-1 justify-between">
         <div>
           <div className="flex items-center justify-between text-xs text-[#A5A19A] mb-1">
-            <span>{product.category}</span>
+            <span>{categoryName}</span>
             <span>{product.volume || '4L'}</span>
           </div>
 

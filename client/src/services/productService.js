@@ -6,8 +6,8 @@ const DEFAULT_PRODUCTS = [
     name: 'Shell Helix Ultra 5W-40 (4L)',
     slug: 'shell-helix-ultra-5w-40-4l',
     sku: 'SHL-HXU-5W40-4L',
-    brand: { name: 'Shell', slug: 'shell' },
-    category: { name: 'Passenger Car Motor Oil', slug: 'passenger-car-motor-oil' },
+    brand: 'Shell',
+    category: 'Passenger Car Motor Oil',
     price: 8200,
     discountPrice: 7790,
     stock: 45,
@@ -25,8 +25,8 @@ const DEFAULT_PRODUCTS = [
     name: 'Caltex Havoline ProDS 5W-30 Fully Synthetic (4L)',
     slug: 'caltex-havoline-prods-5w-30-4l',
     sku: 'CTX-HAV-5W30-4L',
-    brand: { name: 'Caltex', slug: 'caltex' },
-    category: { name: 'Passenger Car Motor Oil', slug: 'passenger-car-motor-oil' },
+    brand: 'Caltex',
+    category: 'Passenger Car Motor Oil',
     price: 7800,
     discountPrice: 7400,
     stock: 38,
@@ -44,8 +44,8 @@ const DEFAULT_PRODUCTS = [
     name: 'PSO Carient S-Pro 5W-30 Premium Synthetic (4L)',
     slug: 'pso-carient-s-pro-5w-30-4l',
     sku: 'PSO-CAR-5W30-4L',
-    brand: { name: 'PSO', slug: 'pso' },
-    category: { name: 'Passenger Car Motor Oil', slug: 'passenger-car-motor-oil' },
+    brand: 'PSO',
+    category: 'Passenger Car Motor Oil',
     price: 7200,
     discountPrice: 6850,
     stock: 50,
@@ -63,8 +63,8 @@ const DEFAULT_PRODUCTS = [
     name: 'Honda Genuine OEM Engine Oil 0W-20 (4L)',
     slug: 'honda-genuine-oem-0w-20-4l',
     sku: 'HON-OEM-0W20-4L',
-    brand: { name: 'Honda', slug: 'honda' },
-    category: { name: 'Passenger Car Motor Oil', slug: 'passenger-car-motor-oil' },
+    brand: 'Honda',
+    category: 'Passenger Car Motor Oil',
     price: 8900,
     discountPrice: 8500,
     stock: 25,
@@ -82,8 +82,8 @@ const DEFAULT_PRODUCTS = [
     name: 'ZIC X7 5W-30 Synthetic (4L)',
     slug: 'zic-x7-5w-30-4l',
     sku: 'ZIC-X7-5W30-4L',
-    brand: { name: 'ZIC', slug: 'zic' },
-    category: { name: 'Passenger Car Motor Oil', slug: 'passenger-car-motor-oil' },
+    brand: 'ZIC',
+    category: 'Passenger Car Motor Oil',
     price: 6800,
     discountPrice: 6450,
     stock: 30,
@@ -101,8 +101,8 @@ const DEFAULT_PRODUCTS = [
     name: 'Blaze Endurance 10W-40 Heavy Duty (4L)',
     slug: 'blaze-endurance-10w-40-4l',
     sku: 'BLZ-END-10W40-4L',
-    brand: { name: 'Blaze', slug: 'blaze' },
-    category: { name: 'Heavy Duty Diesel Oil', slug: 'heavy-duty-diesel-oil' },
+    brand: 'Blaze',
+    category: 'Heavy Duty Diesel Oil',
     price: 4800,
     discountPrice: 4500,
     stock: 60,
@@ -120,8 +120,8 @@ const DEFAULT_PRODUCTS = [
     name: 'Shell Advance 4T AX7 10W-40 Synthetic (1L)',
     slug: 'shell-advance-4t-ax7-10w-40-1l',
     sku: 'SHL-ADV-10W40-1L',
-    brand: { name: 'Shell', slug: 'shell' },
-    category: { name: 'Motorcycle & 4T Oils', slug: 'motorcycle-4t-oils' },
+    brand: 'Shell',
+    category: 'Motorcycle & 4T Oils',
     price: 1550,
     discountPrice: 1450,
     stock: 120,
@@ -139,8 +139,8 @@ const DEFAULT_PRODUCTS = [
     name: 'Total Quartz 9000 Energy 5W-40 (4L)',
     slug: 'total-quartz-9000-5w-40-4l',
     sku: 'TOT-QTZ-5W40-4L',
-    brand: { name: 'Total', slug: 'total' },
-    category: { name: 'Passenger Car Motor Oil', slug: 'passenger-car-motor-oil' },
+    brand: 'Total',
+    category: 'Passenger Car Motor Oil',
     price: 7600,
     discountPrice: 7200,
     stock: 22,
@@ -155,37 +155,59 @@ const DEFAULT_PRODUCTS = [
   },
 ];
 
+const normalizeProduct = (p) => {
+  if (!p) return null;
+  const brandName = typeof p.brand === 'object' ? (p.brand?.name || 'H.I Lubricant') : (p.brand || 'H.I Lubricant');
+  const categoryName = typeof p.category === 'object' ? (p.category?.name || 'Engine Oil') : (p.category || 'Engine Oil');
+  return {
+    ...p,
+    brand: String(brandName),
+    category: String(categoryName),
+  };
+};
+
 const getStoredProducts = () => {
   const saved = localStorage.getItem('hi_store_products');
+  let list = DEFAULT_PRODUCTS;
   if (saved) {
     try {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        list = parsed;
+      }
     } catch (e) {}
   }
-  localStorage.setItem('hi_store_products', JSON.stringify(DEFAULT_PRODUCTS));
-  return DEFAULT_PRODUCTS;
+  return list.map(normalizeProduct).filter(Boolean);
 };
 
 const saveStoredProducts = (products) => {
-  localStorage.setItem('hi_store_products', JSON.stringify(products));
+  try {
+    localStorage.setItem('hi_store_products', JSON.stringify(products.map(normalizeProduct)));
+  } catch (e) {}
 };
 
 export const productService = {
   getProducts: async (params = {}) => {
     try {
       const response = await api.get('/products', { params });
+      if (response.data && Array.isArray(response.data.products)) {
+        return {
+          ...response.data,
+          products: response.data.products.map(normalizeProduct),
+        };
+      }
       return response.data;
     } catch (err) {
       let list = getStoredProducts();
       if (params.search) {
         const s = params.search.toLowerCase();
-        list = list.filter((p) => p.name.toLowerCase().includes(s) || p.brand.name.toLowerCase().includes(s));
+        list = list.filter((p) => p.name.toLowerCase().includes(s) || p.brand.toLowerCase().includes(s));
       }
       if (params.brand && params.brand !== 'all' && params.brand !== 'All') {
-        list = list.filter((p) => p.brand.name.toLowerCase() === params.brand.toLowerCase());
+        list = list.filter((p) => p.brand.toLowerCase() === params.brand.toLowerCase());
       }
       if (params.category && params.category !== 'all' && params.category !== 'All') {
-        list = list.filter((p) => p.category.name.toLowerCase() === params.category.toLowerCase());
+        list = list.filter((p) => p.category.toLowerCase() === params.category.toLowerCase());
       }
       if (params.viscosity && params.viscosity !== 'all' && params.viscosity !== 'All') {
         list = list.filter((p) => p.viscosity === params.viscosity);
@@ -207,11 +229,17 @@ export const productService = {
   getProduct: async (identifier) => {
     try {
       const response = await api.get(`/products/${identifier}`);
+      if (response.data && response.data.product) {
+        return {
+          ...response.data,
+          product: normalizeProduct(response.data.product),
+        };
+      }
       return response.data;
     } catch (err) {
       const list = getStoredProducts();
       const product = list.find((p) => p._id === identifier || p.slug === identifier);
-      if (product) return { success: true, product };
+      if (product) return { success: true, product: normalizeProduct(product) };
       throw err;
     }
   },
@@ -222,13 +250,13 @@ export const productService = {
       return response.data;
     } catch (err) {
       const list = getStoredProducts();
-      const newP = {
+      const newP = normalizeProduct({
         ...productData,
         _id: 'prod_' + Date.now(),
         slug: productData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        brand: { name: productData.brand || 'H.I Lubricant' },
-        category: { name: productData.category || 'Engine Oil' },
-      };
+        brand: productData.brand || 'H.I Lubricant',
+        category: productData.category || 'Engine Oil',
+      });
       list.push(newP);
       saveStoredProducts(list);
       return { success: true, product: newP, message: 'Product created successfully' };
@@ -243,7 +271,7 @@ export const productService = {
       const list = getStoredProducts();
       const idx = list.findIndex((p) => p._id === id);
       if (idx !== -1) {
-        list[idx] = { ...list[idx], ...productData };
+        list[idx] = normalizeProduct({ ...list[idx], ...productData });
         saveStoredProducts(list);
         return { success: true, product: list[idx], message: 'Product updated successfully' };
       }
