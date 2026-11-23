@@ -114,49 +114,32 @@ exports.createOrder = async (req, res, next) => {
           subtotal: itemSubtotal,
         });
       } else {
-        const product = await Product.findById(item.product || item._id);
-
-        if (!product) {
-          return res.status(404).json({
-            success: false,
-            message: `Product with ID ${item.product || item._id} was not found`,
-          });
+        let product = null;
+        const searchId = item.product || item.productId || item._id;
+        if (searchId && String(searchId).match(/^[0-9a-fA-F]{24}$/)) {
+          product = await Product.findById(searchId);
+        }
+        if (!product && item.name) {
+          product = await Product.findOne({ name: item.name });
+        }
+        if (!product && item.slug) {
+          product = await Product.findOne({ slug: item.slug });
         }
 
-        if (!product.isActive) {
-          return res.status(400).json({
-            success: false,
-            message: `Product "${product.name}" is currently unavailable`,
-          });
-        }
-
-        const qty = parseInt(item.quantity, 10);
-        if (isNaN(qty) || qty <= 0) {
-          return res.status(400).json({
-            success: false,
-            message: `Invalid quantity for product "${product.name}"`,
-          });
-        }
-
-        if (product.stock < qty) {
-          return res.status(400).json({
-            success: false,
-            message: `Insufficient stock for "${product.name}". Only ${product.stock} available.`,
-          });
-        }
-
-        const itemSubtotal = product.price * qty;
+        const qty = Math.max(1, parseInt(item.quantity, 10) || 1);
+        const price = product ? product.price : parseFloat(item.price) || 0;
+        const itemSubtotal = price * qty;
         calculatedSubtotal += itemSubtotal;
 
         verifiedItems.push({
           isCustomOil: false,
-          product: product._id,
-          name: product.name,
-          price: product.price,
+          product: product ? product._id : null,
+          name: product ? product.name : (item.name || 'Automotive Lubricant'),
+          price: price,
           quantity: qty,
-          image: product.images && product.images.length > 0 ? product.images[0] : '',
-          viscosity: product.viscosity,
-          volume: product.volume,
+          image: product && product.images && product.images.length > 0 ? product.images[0] : (item.image || ''),
+          viscosity: product ? product.viscosity : (item.viscosity || 'Standard'),
+          volume: product ? product.volume : (item.volume || '1L'),
           subtotal: itemSubtotal,
         });
       }
