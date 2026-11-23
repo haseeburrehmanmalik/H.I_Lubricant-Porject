@@ -78,17 +78,21 @@ export const adminService = {
       const response = await api.get('/admin/dashboard/summary');
       return response.data;
     } catch (err) {
+      const mockMetrics = {
+        totalRevenue: 384500,
+        todaySales: 42800,
+        totalOrders: 184,
+        pendingOrders: 6,
+        completedOrders: 165,
+        totalProducts: 48,
+        lowStockCount: 3,
+        activeConverters: 10,
+        totalCustomers: 120,
+      };
       return {
         success: true,
-        metrics: {
-          totalRevenue: 384500,
-          todaySales: 42800,
-          totalOrders: 184,
-          pendingOrders: 6,
-          totalProducts: 48,
-          lowStockCount: 3,
-          activeConverters: 10,
-        },
+        summary: mockMetrics,
+        metrics: mockMetrics,
       };
     }
   },
@@ -98,17 +102,19 @@ export const adminService = {
       const response = await api.get('/admin/dashboard/sales');
       return response.data;
     } catch (err) {
+      const chartData = [
+        { day: 'Mon', revenue: 38000, orders: 12 },
+        { day: 'Tue', revenue: 45000, orders: 15 },
+        { day: 'Wed', revenue: 52000, orders: 18 },
+        { day: 'Thu', revenue: 41000, orders: 14 },
+        { day: 'Fri', revenue: 68000, orders: 22 },
+        { day: 'Sat', revenue: 79000, orders: 26 },
+        { day: 'Sun', revenue: 61500, orders: 20 },
+      ];
       return {
         success: true,
-        chartData: [
-          { day: 'Mon', revenue: 38000, orders: 12 },
-          { day: 'Tue', revenue: 45000, orders: 15 },
-          { day: 'Wed', revenue: 52000, orders: 18 },
-          { day: 'Thu', revenue: 41000, orders: 14 },
-          { day: 'Fri', revenue: 68000, orders: 22 },
-          { day: 'Sat', revenue: 79000, orders: 26 },
-          { day: 'Sun', revenue: 61500, orders: 20 },
-        ],
+        sales: chartData,
+        chartData: chartData,
       };
     }
   },
@@ -118,36 +124,48 @@ export const adminService = {
       const response = await api.get('/admin/dashboard/recent-orders');
       return response.data;
     } catch (err) {
+      const recent = [
+        {
+          _id: 'ord-101',
+          orderNumber: 'HI-98421',
+          createdAt: new Date().toISOString(),
+          orderStatus: 'Processing',
+          status: 'Processing',
+          total: 15830,
+          totalAmount: 15830,
+          customer: { name: 'Muhammad Tariq', phone: '+92 300 1234567', city: 'Hyderabad', address: 'House # 42, Block C, Latifabad' },
+          items: [{ name: 'Shell Helix Ultra 5W-40 (4L)', quantity: 2, price: 7790, subtotal: 15580 }],
+        },
+        {
+          _id: 'ord-102',
+          orderNumber: 'HI-98420',
+          createdAt: new Date(Date.now() - 3600000).toISOString(),
+          orderStatus: 'Confirmed',
+          status: 'Confirmed',
+          total: 7400,
+          totalAmount: 7400,
+          customer: { name: 'Ahmed Raza', phone: '+92 312 9876543', city: 'Gari Khata, Hyderabad', address: 'Shop # 12, Auto Market' },
+          items: [{ name: 'Caltex Havoline ProDS 5W-30 (4L)', quantity: 1, price: 7400, subtotal: 7400 }],
+        },
+        {
+          _id: 'ord-103',
+          orderNumber: 'HI-98419',
+          createdAt: new Date(Date.now() - 7200000).toISOString(),
+          orderStatus: 'Delivered',
+          status: 'Delivered',
+          total: 8500,
+          totalAmount: 8500,
+          customer: { name: 'Bilal Khan', phone: '+92 333 4567890', city: 'Qasimabad, Hyderabad', address: 'Plot 18, Phase 2' },
+          items: [{ name: 'Honda Genuine OEM 0W-20 (4L)', quantity: 1, price: 8500, subtotal: 8500 }],
+        },
+      ];
       return {
         success: true,
-        orders: [
-          {
-            _id: 'ord-101',
-            orderNumber: 'HI-98421',
-            createdAt: new Date().toISOString(),
-            status: 'processing',
-            totalAmount: 14500,
-            customer: { name: 'Muhammad Tariq', phone: '+92 300 1234567', city: 'Hyderabad' },
-            items: [{ name: 'Shell Helix Ultra 5W-40 (4L)', quantity: 2, price: 6200 }],
-          },
-          {
-            _id: 'ord-102',
-            orderNumber: 'HI-98420',
-            createdAt: new Date(Date.now() - 3600000).toISOString(),
-            status: 'confirmed',
-            totalAmount: 5800,
-            customer: { name: 'Ahmed Raza', phone: '+92 312 9876543', city: 'Latifabad, Hyderabad' },
-            items: [{ name: 'Caltex Havoline 10W-40 (4L)', quantity: 1, price: 5800 }],
-          },
-          {
-            _id: 'ord-103',
-            orderNumber: 'HI-98419',
-            createdAt: new Date(Date.now() - 7200000).toISOString(),
-            status: 'delivered',
-            totalAmount: 8900,
-            customer: { name: 'Bilal Khan', phone: '+92 333 4567890', city: 'Qasimabad, Hyderabad' },
-            items: [{ name: 'PSO Carient S-Pro 5W-30 (4L)', quantity: 1, price: 8900 }],
-          },
+        recentOrders: recent,
+        orders: recent,
+        lowStockAlerts: [
+          { _id: 'prod-1', name: 'ZIC X7 5W-30 (4L)', stock: 2, threshold: 5, brand: 'ZIC' },
+          { _id: 'prod-2', name: 'Shell Advance 4T 10W-40 (1L)', stock: 3, threshold: 10, brand: 'Shell' }
         ],
       };
     }

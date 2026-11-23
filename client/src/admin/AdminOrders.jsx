@@ -85,7 +85,7 @@ const AdminOrders = () => {
 
   const openOrderModal = (ord) => {
     setSelectedOrder(ord);
-    setSelectedStatus(ord.orderStatus);
+    setSelectedStatus(ord.orderStatus || ord.status || 'Pending');
     setSelectedPaymentStatus(ord.paymentStatus || 'Unpaid');
     setTrackingNotes('');
     setAdminNotes(ord.adminNotes || '');
@@ -259,14 +259,14 @@ const AdminOrders = () => {
 
                     {/* Total */}
                     <td className="py-3 px-4 font-extrabold text-[#D7AD55]">
-                      Rs. {ord.total?.toLocaleString()}
+                      Rs. {(ord.total ?? ord.totalAmount ?? 0).toLocaleString()}
                     </td>
 
                     {/* Payment Status */}
                     <td className="py-3 px-4">
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                          ord.paymentStatus === 'Paid'
+                          (ord.paymentStatus || 'Unpaid') === 'Paid'
                             ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-500/30'
                             : 'bg-amber-950/60 text-amber-400 border border-amber-500/30'
                         }`}
@@ -279,10 +279,10 @@ const AdminOrders = () => {
                     <td className="py-3 px-4">
                       <span
                         className={`px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider ${getStatusBadge(
-                          ord.orderStatus
+                          ord.orderStatus || ord.status || 'Pending'
                         )}`}
                       >
-                        {ord.orderStatus}
+                        {ord.orderStatus || ord.status || 'Pending'}
                       </span>
                     </td>
 
@@ -394,11 +394,11 @@ const AdminOrders = () => {
                     <div>
                       <div className="font-semibold text-[#F5F2EA]">{it.name}</div>
                       <div className="text-[11px] text-[#A5A19A]">
-                        {it.viscosity} • Qty: {it.quantity} x Rs. {it.price.toLocaleString()}
+                        {it.viscosity || it.unit || 'Standard'} • Qty: {it.quantity} x Rs. {(it.price || 0).toLocaleString()}
                       </div>
                     </div>
                     <div className="font-extrabold text-[#D7AD55]">
-                      Rs. {it.subtotal.toLocaleString()}
+                      Rs. {(it.subtotal ?? (it.price || 0) * (it.quantity || 1)).toLocaleString()}
                     </div>
                   </div>
                 ))}
@@ -409,15 +409,23 @@ const AdminOrders = () => {
             <div className="p-4 rounded-xl bg-[#191919] border border-[#292722] space-y-1.5 text-xs">
               <div className="flex justify-between text-[#A5A19A]">
                 <span>Subtotal:</span>
-                <span className="text-[#F5F2EA]">Rs. {selectedOrder.subtotal?.toLocaleString()}</span>
+                <span className="text-[#F5F2EA]">
+                  Rs. {(selectedOrder.subtotal ?? selectedOrder.itemsPrice ?? 0).toLocaleString()}
+                </span>
               </div>
               <div className="flex justify-between text-[#A5A19A]">
                 <span>Delivery Fee:</span>
-                <span>{selectedOrder.deliveryCharges === 0 ? 'FREE' : `Rs. ${selectedOrder.deliveryCharges}`}</span>
+                <span>
+                  {(selectedOrder.deliveryCharges ?? selectedOrder.deliveryFee ?? 0) === 0
+                    ? 'FREE'
+                    : `Rs. ${selectedOrder.deliveryCharges ?? selectedOrder.deliveryFee}`}
+                </span>
               </div>
               <div className="pt-2 border-t border-[#292722] flex justify-between font-bold text-sm">
                 <span className="text-[#F5F2EA]">Grand Total:</span>
-                <span className="text-[#D7AD55]">Rs. {selectedOrder.total?.toLocaleString()}</span>
+                <span className="text-[#D7AD55]">
+                  Rs. {(selectedOrder.total ?? selectedOrder.totalAmount ?? 0).toLocaleString()}
+                </span>
               </div>
             </div>
 

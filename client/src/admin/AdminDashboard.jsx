@@ -35,10 +35,10 @@ const AdminDashboard = () => {
         adminService.getRecentActivity(),
       ]);
 
-      if (sumRes.success) setSummary(sumRes.summary);
-      if (salesRes.success) setSales(salesRes.sales || []);
+      if (sumRes.success) setSummary(sumRes.summary || sumRes.metrics);
+      if (salesRes.success) setSales(salesRes.sales || salesRes.chartData || []);
       if (actRes.success) {
-        setRecentOrders(actRes.recentOrders || []);
+        setRecentOrders(actRes.recentOrders || actRes.orders || []);
         setLowStockAlerts(actRes.lowStockAlerts || []);
       }
     } catch (err) {
@@ -365,26 +365,26 @@ const AdminDashboard = () => {
                       <div className="text-[10px] text-[#A5A19A]">{ord.customer?.phone}</div>
                     </td>
                     <td className="py-3 font-extrabold text-[#F5F2EA]">
-                      Rs. {ord.total?.toLocaleString()}
+                      Rs. {(ord.total ?? ord.totalAmount ?? 0).toLocaleString()}
                     </td>
                     <td className="py-3">
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                          ord.orderStatus === 'Completed'
+                          (ord.orderStatus || ord.status) === 'Completed' || (ord.orderStatus || ord.status) === 'Delivered'
                             ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-500/30'
-                            : ord.orderStatus === 'Pending'
+                            : (ord.orderStatus || ord.status) === 'Pending'
                             ? 'bg-amber-950/60 text-amber-400 border border-amber-500/30'
-                            : ord.orderStatus === 'Cancelled'
+                            : (ord.orderStatus || ord.status) === 'Cancelled'
                             ? 'bg-red-950/60 text-red-400 border border-red-500/30'
                             : 'bg-blue-950/60 text-blue-400 border border-blue-500/30'
                         }`}
                       >
-                        {ord.orderStatus}
+                        {ord.orderStatus || ord.status || 'Pending'}
                       </span>
                     </td>
                     <td className="py-3 text-right">
                       <select
-                        value={ord.orderStatus}
+                        value={ord.orderStatus || ord.status || 'Pending'}
                         disabled={statusUpdating === ord._id}
                         onChange={(e) => handleQuickStatusChange(ord._id, e.target.value)}
                         className="px-2 py-1 rounded bg-[#191919] border border-[#292722] text-[11px] text-[#F5F2EA] focus:outline-none focus:border-[#D7AD55]"
@@ -393,6 +393,7 @@ const AdminDashboard = () => {
                         <option value="Confirmed">Confirmed</option>
                         <option value="Processing">Processing</option>
                         <option value="Completed">Completed</option>
+                        <option value="Delivered">Delivered</option>
                         <option value="Cancelled">Cancelled</option>
                       </select>
                     </td>
