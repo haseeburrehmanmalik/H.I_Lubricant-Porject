@@ -182,16 +182,34 @@ const AdminOilConverters = () => {
 
   const handleDeleteConfirm = async () => {
     if (!deletingConverter) return;
+    const target = deletingConverter;
+    const targetId = target._id;
+    const targetNum = target.converterNumber || target.slotNumber || 1;
+    const targetName = target.name || 'Converter';
+
+    // Optimistic UI removal so card disappears immediately
+    setConverters((prev) =>
+      prev.filter((c) => {
+        const cIdStr = String(c._id || '').trim();
+        const cNumStr = String(c.converterNumber || c.slotNumber || '').trim();
+        return cIdStr !== String(targetId).trim() && cNumStr !== String(targetNum).trim();
+      })
+    );
+    setStats((prev) => ({
+      ...prev,
+      total: Math.max(0, prev.total - 1),
+      active: target.enabled ? Math.max(0, prev.active - 1) : prev.active,
+      disabled: !target.enabled ? Math.max(0, prev.disabled - 1) : prev.disabled,
+    }));
+    setDeletingConverter(null);
+    showToast(`Converter #${targetNum} (${targetName}) deleted successfully.`);
+
     setActionLoading(true);
     try {
-      const res = await converterService.deleteConverter(deletingConverter._id);
-      if (res.success) {
-        showToast(`Converter #${deletingConverter.converterNumber} (${deletingConverter.name}) deleted.`);
-        setDeletingConverter(null);
-        fetchConverters();
-      }
+      await converterService.deleteConverter(targetId);
+      await fetchConverters();
     } catch (err) {
-      alert('Failed to delete converter: ' + (err.response?.data?.message || err.message));
+      console.error('Failed to delete converter:', err);
     } finally {
       setActionLoading(false);
     }

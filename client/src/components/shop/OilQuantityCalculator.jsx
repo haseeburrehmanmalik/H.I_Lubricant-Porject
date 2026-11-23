@@ -199,6 +199,9 @@ const OilQuantityCalculator = ({ title, subtitle, showAllByDefault = false }) =>
             {filteredConverters.length > 0 ? (
               filteredConverters.map((conv) => {
                 const isSelected = selectedConverter && selectedConverter._id === conv._id;
+                const slotNum = conv.converterNumber || conv.slotNumber || 1;
+                const formattedSlot = slotNum < 10 ? `0${slotNum}` : slotNum;
+                const stockLitres = conv.availableLitres ?? conv.availableQuantity ?? 500;
                 return (
                   <div
                     key={conv._id}
@@ -212,7 +215,7 @@ const OilQuantityCalculator = ({ title, subtitle, showAllByDefault = false }) =>
                     {/* Top Bar: Slot # + Brand Badge */}
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-[#090909] text-[#D7AD55] border border-[#292722]">
-                        Slot #{conv.converterNumber < 10 ? `0${conv.converterNumber}` : conv.converterNumber}
+                        Slot #{formattedSlot}
                       </span>
                       <span className="text-[10px] font-bold text-[#A5A19A] truncate max-w-[120px]">
                         {conv.brand}
@@ -234,14 +237,14 @@ const OilQuantityCalculator = ({ title, subtitle, showAllByDefault = false }) =>
                       <div>
                         <span className="text-[10px] text-[#A5A19A] block">Rate:</span>
                         <strong className="text-[#D7AD55] font-extrabold">
-                          Rs. {conv.pricePerLitre.toLocaleString()} <span className="text-[10px] text-[#A5A19A] font-normal">/ L</span>
+                          Rs. {conv.pricePerLitre?.toLocaleString() || 0} <span className="text-[10px] text-[#A5A19A] font-normal">/ L</span>
                         </strong>
                       </div>
 
                       <div className="text-right">
                         <span className="text-[10px] text-[#A5A19A] block">Stock:</span>
                         <span className="text-[11px] text-[#F5F2EA] font-semibold">
-                          {conv.availableLitres} L
+                          {stockLitres} L
                         </span>
                       </div>
                     </div>
